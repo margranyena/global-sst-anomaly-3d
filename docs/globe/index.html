@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Global SST Anomaly — September 2026
+    </title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    #101827 0%,
+                    #050812 65%,
+                    #02040a 100%
+                );
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            color: white;
+        }
+
+        #app {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        #globe {
+            position: absolute;
+            inset: 0;
+        }
+
+        #title {
+            position: absolute;
+            top: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+
+            width: min(900px, 90vw);
+
+            text-align: center;
+            z-index: 10;
+
+            pointer-events: none;
+        }
+
+        #title h1 {
+            margin: 0;
+
+            font-size: clamp(
+                20px,
+                2.2vw,
+                34px
+            );
+
+            font-weight: 600;
+        }
+
+        #title p {
+            margin-top: 7px;
+
+            font-size: clamp(
+                11px,
+                1.1vw,
+                15px
+            );
+
+            color: #bfc7d5;
+        }
+
+        #stats {
+            position: absolute;
+
+            top: 105px;
+            left: 24px;
+
+            z-index: 10;
+
+            padding: 12px 15px;
+
+            border-radius: 10px;
+
+            background:
+                rgba(
+                    6,
+                    10,
+                    20,
+                    0.72
+                );
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.12
+                );
+
+            backdrop-filter: blur(8px);
+
+            font-size: 13px;
+            line-height: 1.55;
+        }
+
+        #stats strong {
+            font-size: 15px;
+        }
+
+        #tooltip {
+            position: absolute;
+
+            display: none;
+
+            z-index: 20;
+
+            min-width: 165px;
+
+            padding: 10px 12px;
+
+            border-radius: 8px;
+
+            background:
+                rgba(
+                    3,
+                    7,
+                    15,
+                    0.90
+                );
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.18
+                );
+
+            font-size: 13px;
+            line-height: 1.45;
+
+            pointer-events: none;
+
+            backdrop-filter: blur(8px);
+        }
+
+        #legend {
+            position: absolute;
+
+            left: 50%;
+            bottom: 24px;
+
+            transform: translateX(-50%);
+
+            width: min(
+                720px,
+                82vw
+            );
+
+            z-index: 10;
+        }
+
+        #colorbar {
+            height: 18px;
+
+            border-radius: 3px;
+
+            background:
+                linear-gradient(
+                    to right,
+                    #1D0066 0%,
+                    #0000CC 9%,
+                    #0066FF 19%,
+                    #00CCFF 29%,
+                    #A6E7FF 34%,
+                    #FFFFFF 38.1%,
+                    #FFF066 47.6%,
+                    #FFB000 57.1%,
+                    #FF5A00 66.7%,
+                    #E00000 76.2%,
+                    #8A0000 85.7%,
+                    #2A0000 95.2%,
+                    #000000 100%
+                );
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.30
+                );
+        }
+
+        #ticks {
+            position: relative;
+            height: 25px;
+
+            font-size: 11px;
+
+            color: #d9dde6;
+        }
+
+        .tick {
+            position: absolute;
+            top: 5px;
+
+            transform:
+                translateX(-50%);
+        }
+
+        #legend-label {
+            text-align: center;
+
+            margin-top: 2px;
+
+            font-size: 12px;
+
+            color: #d9dde6;
+        }
+
+        #instructions {
+            position: absolute;
+
+            right: 22px;
+            bottom: 24px;
+
+            z-index: 10;
+
+            font-size: 11px;
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.62
+                );
+        }
+
+        @media (
+            max-width: 650px
+        ) {
+            #stats {
+                top: 90px;
+                left: 10px;
+
+                font-size: 11px;
+            }
+
+            #instructions {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+<div id="app">
+
+    <div id="globe"></div>
+
+
+    <div id="title">
+
+        <h1>
+            Global Sea Surface Temperature Anomaly
+        </h1>
+
+        <p>
+            September 2026 relative to the
+            1991–2020 September climatology
+            · NOAA OISST v2.1
+        </p>
+
+    </div>
+
+
+    <div id="stats">
+
+        <strong>
+            September 2026
+        </strong>
+
+        <br>
+
+        Global mean anomaly:
+        <span id="globalMean">
+            —
+        </span>
+
+        <br>
+
+        Resolution:
+        0.25°
+
+    </div>
+
+
+    <div id="tooltip"></div>
+
+
+    <div id="legend">
+
+        <div id="colorbar"></div>
+
+        <div id="ticks">
+
+            <span class="tick" style="left:0%">−4</span>
+            <span class="tick" style="left:9.5%">−3</span>
+            <span class="tick" style="left:19%">−2</span>
+            <span class="tick" style="left:28.6%">−1</span>
+            <span class="tick" style="left:38.1%">0</span>
+            <span class="tick" style="left:47.6%">1</span>
+            <span class="tick" style="left:57.1%">2</span>
+            <span class="tick" style="left:66.7%">3</span>
+            <span class="tick" style="left:76.2%">4</span>
+            <span class="tick" style="left:85.7%">5</span>
+            <span class="tick" style="left:95.2%">6</span>
+            <span class="tick" style="left:100%">6.5</span>
+
+        </div>
+
+        <div id="legend-label">
+            Sea Surface Temperature anomaly (°C)
+        </div>
+
+    </div>
+
+
+    <div id="instructions">
+        Drag to rotate · Scroll to zoom
+    </div>
+
+</div>
+
+
+<script type="importmap">
+{
+    "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+    }
+}
+</script>
+
+<script type="module">
+
+    import * as THREE from "three";
+
+    import {
+        OrbitControls
+    } from "three/addons/controls/OrbitControls.js";
+
+
+    const container =
+        document.getElementById(
+            "globe"
+        );
+
+    const tooltip =
+        document.getElementById(
+            "tooltip"
+        );
+
+
+    // ========================================================
+    // ESCENA
+    // ========================================================
+
+    const scene =
+        new THREE.Scene();
+
+
+    // ========================================================
+    // CÀMERA
+    // ========================================================
+
+    const camera =
+        new THREE.PerspectiveCamera(
+            40,
+            window.innerWidth /
+            window.innerHeight,
+            0.1,
+            100
+        );
+
+    camera.position.set(
+        0,
+        0,
+        3.1
+    );
+
+
+    // ========================================================
+    // RENDERER
+    // ========================================================
+
+    const renderer =
+        new THREE.WebGLRenderer({
+            antialias: true,
+            alpha: true
+        });
+
+    renderer.setPixelRatio(
+        Math.min(
+            window.devicePixelRatio,
+            2
+        )
+    );
+
+    renderer.setSize(
+        window.innerWidth,
+        window.innerHeight
+    );
+
+    container.appendChild(
+        renderer.domElement
+    );
+
+
+    // ========================================================
+    // CONTROLS
+    // ========================================================
+
+    const controls =
+        new OrbitControls(
+            camera,
+            renderer.domElement
+        );
+
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.055;
+    controls.enablePan = false;
+
+    controls.minDistance = 1.45;
+    controls.maxDistance = 6.0;
+
+    controls.rotateSpeed = 0.55;
+    controls.zoomSpeed = 0.8;
+
+
+    // ========================================================
+    // TEXTURA
+    // ========================================================
+
+    const textureLoader =
+        new THREE.TextureLoader();
+
+    const texture =
+        await textureLoader.loadAsync(
+            "./assets/sst_anomaly_sep2026_texture.png"
+        );
+
+    texture.colorSpace =
+        THREE.SRGBColorSpace;
+
+    texture.anisotropy =
+        renderer.capabilities.getMaxAnisotropy();
+    
+    const coastTexture =
+    await textureLoader.loadAsync(
+        "./assets/coastline_overlay.png"
+    );
+
+    coastTexture.colorSpace =
+        THREE.SRGBColorSpace;
+
+    coastTexture.anisotropy =
+        renderer.capabilities.getMaxAnisotropy();
+
+
+    // ========================================================
+    // GLOBUS
+    // ========================================================
+
+    const geometry =
+        new THREE.SphereGeometry(
+            1,
+            256,
+            128
+        );
+
+    const material =
+        new THREE.MeshBasicMaterial({
+            map: texture
+        });
+
+    const globe =
+        new THREE.Mesh(
+            geometry,
+            material
+        );
+
+    globe.rotation.y =
+        Math.PI;
+
+    scene.add(
+        globe
+    );
+
+// ========================================================
+// COSTES
+// ========================================================
+
+const coastGeometry =
+    new THREE.SphereGeometry(
+        1.003,
+        256,
+        128
+    );
+
+const coastMaterial =
+    new THREE.MeshBasicMaterial({
+        map: coastTexture,
+        transparent: true,
+        opacity: 1.0,
+        depthWrite: false,
+        alphaTest: 0.1
+    });
+
+const coastlines =
+    new THREE.Mesh(
+        coastGeometry,
+        coastMaterial
+    );
+
+coastlines.rotation.y =
+    Math.PI;
+
+scene.add(
+    coastlines
+);
+
+    // ========================================================
+    // ATMOSFERA
+    // ========================================================
+
+    const atmosphereGeometry =
+        new THREE.SphereGeometry(
+            1.012,
+            128,
+            64
+        );
+
+    const atmosphereMaterial =
+        new THREE.MeshBasicMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.035,
+            side: THREE.BackSide
+        });
+
+    const atmosphere =
+        new THREE.Mesh(
+            atmosphereGeometry,
+            atmosphereMaterial
+        );
+
+    scene.add(
+        atmosphere
+    );
+
+
+    // ========================================================
+    // METADADES
+    // ========================================================
+
+    const metadata =
+        await fetch(
+            "./assets/metadata.json"
+        )
+        .then(
+            response =>
+                response.json()
+        );
+
+
+    document.getElementById(
+        "globalMean"
+    ).textContent =
+        "+" +
+        metadata
+            .global_mean_anomaly_degC
+            .toFixed(2) +
+        " °C";
+
+
+    // ========================================================
+    // DADES BINÀRIES
+    // ========================================================
+
+    const buffer =
+        await fetch(
+            "./assets/sst_anomaly_values.bin"
+        )
+        .then(
+            response =>
+                response.arrayBuffer()
+        );
+
+    const anomalyValues =
+        new Float32Array(
+            buffer
+        );
+
+
+    const NLAT =
+        metadata.n_lat;
+
+    const NLON =
+        metadata.n_lon;
+
+
+    // ========================================================
+    // RAYCASTER
+    // ========================================================
+
+    const raycaster =
+        new THREE.Raycaster();
+
+    const mouse =
+        new THREE.Vector2();
+
+
+    function updateMouse(
+        event
+    ) {
+
+        mouse.x =
+            (
+                event.clientX /
+                window.innerWidth
+            ) * 2 - 1;
+
+        mouse.y =
+            -(
+                event.clientY /
+                window.innerHeight
+            ) * 2 + 1;
+
+    }
+
+
+    // ========================================================
+    // HOVER
+    // ========================================================
+
+    renderer.domElement.addEventListener(
+        "pointermove",
+        event => {
+
+            updateMouse(
+                event
+            );
+
+            raycaster.setFromCamera(
+                mouse,
+                camera
+            );
+
+            const intersections =
+                raycaster.intersectObject(
+                    globe
+                );
+
+
+            if (
+                intersections.length === 0
+            ) {
+
+                tooltip.style.display =
+                    "none";
+
+                return;
+            }
+
+
+            const uv =
+                intersections[0].uv;
+
+
+            if (!uv) {
+
+                tooltip.style.display =
+                    "none";
+
+                return;
+            }
+
+
+            let lon =
+                uv.x * 360.0;
+
+            let lat =
+                uv.y * 180.0 - 90.0;
+
+
+            let j =
+                Math.floor(
+                    lon / 0.25
+                );
+
+            let i =
+                Math.floor(
+                    (
+                        lat + 90.0
+                    ) / 0.25
+                );
+
+
+            i =
+                Math.max(
+                    0,
+                    Math.min(
+                        NLAT - 1,
+                        i
+                    )
+                );
+
+            j =
+                (
+                    j % NLON +
+                    NLON
+                ) % NLON;
+
+
+            const index =
+                i * NLON + j;
+
+
+            const anomaly =
+                anomalyValues[
+                    index
+                ];
+
+
+            if (
+                Number.isNaN(
+                    anomaly
+                )
+            ) {
+
+                tooltip.style.display =
+                    "none";
+
+                return;
+            }
+
+
+            let lonDisplay =
+                lon;
+
+            if (
+                lonDisplay > 180
+            ) {
+
+                lonDisplay -= 360;
+
+            }
+
+
+            const latLabel =
+                Math.abs(
+                    lat
+                ).toFixed(2) +
+                "°" +
+                (
+                    lat >= 0
+                    ? "N"
+                    : "S"
+                );
+
+
+            const lonLabel =
+                Math.abs(
+                    lonDisplay
+                ).toFixed(2) +
+                "°" +
+                (
+                    lonDisplay >= 0
+                    ? "E"
+                    : "W"
+                );
+
+
+            tooltip.innerHTML =
+                "<strong>" +
+                (
+                    anomaly >= 0
+                    ? "+"
+                    : ""
+                ) +
+                anomaly.toFixed(2) +
+                " °C</strong><br>" +
+                latLabel +
+                " · " +
+                lonLabel;
+
+
+            tooltip.style.left =
+                (
+                    event.clientX + 15
+                ) +
+                "px";
+
+            tooltip.style.top =
+                (
+                    event.clientY + 15
+                ) +
+                "px";
+
+            tooltip.style.display =
+                "block";
+
+        }
+    );
+
+
+    renderer.domElement.addEventListener(
+        "pointerleave",
+        () => {
+
+            tooltip.style.display =
+                "none";
+
+        }
+    );
+
+
+    // ========================================================
+    // RESPONSIVE
+    // ========================================================
+
+    window.addEventListener(
+        "resize",
+        () => {
+
+            camera.aspect =
+                window.innerWidth /
+                window.innerHeight;
+
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(
+                window.innerWidth,
+                window.innerHeight
+            );
+
+        }
+    );
+
+
+    // ========================================================
+    // ANIMACIÓ
+    // ========================================================
+
+    function animate() {
+
+        requestAnimationFrame(
+            animate
+        );
+
+        controls.update();
+
+        renderer.render(
+            scene,
+            camera
+        );
+
+    }
+
+    animate();
+
+</script>
+
+</body>
+
+</html>

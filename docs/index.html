@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Global SST Anomaly — September 2026
+    </title>
+
+    <style>
+
+        :root {
+            --bg: #f7f8fa;
+            --card: #ffffff;
+            --text: #151a20;
+            --muted: #626b75;
+            --line: #dde2e6;
+            --accent: #d94b2b;
+            --accent-blue: #167d8b;
+            --dark: #070c16;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+
+            background: var(--bg);
+            color: var(--text);
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            line-height: 1.6;
+        }
+
+
+        /* ==================================================
+           CONTENIDOR
+        ================================================== */
+
+        .container {
+            width: min(1220px, 92%);
+            margin: 0 auto;
+        }
+
+
+        /* ==================================================
+           HERO
+        ================================================== */
+
+        .hero {
+            padding:
+                75px 0 55px;
+        }
+
+        .hero h1 {
+            margin: 0;
+
+            max-width: 1100px;
+
+            font-size:
+                clamp(
+                    46px,
+                    7vw,
+                    88px
+                );
+
+            line-height: 0.98;
+
+            letter-spacing:
+                -0.045em;
+
+            font-weight: 760;
+        }
+
+        .hero p {
+            max-width: 900px;
+
+            margin:
+                28px 0 0;
+
+            color:
+                var(--muted);
+
+            font-size:
+                clamp(
+                    17px,
+                    1.8vw,
+                    22px
+                );
+        }
+
+
+        /* ==================================================
+           ETIQUETES
+        ================================================== */
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 9px;
+
+            margin-top: 27px;
+        }
+
+        .tag {
+            padding:
+                7px 12px;
+
+            background: #eceff1;
+
+            border-radius: 999px;
+
+            color: #424b53;
+
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+
+        /* ==================================================
+           SECCIONS
+        ================================================== */
+
+        section {
+            padding:
+                25px 0 55px;
+        }
+
+        .section-header {
+            padding-top: 34px;
+
+            border-top:
+                1px solid
+                var(--line);
+
+            margin-bottom: 24px;
+        }
+
+        .section-kicker {
+            margin-bottom: 7px;
+
+            color:
+                var(--accent);
+
+            font-size: 13px;
+
+            font-weight: 750;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.11em;
+        }
+
+        h2 {
+            margin: 0;
+
+            font-size:
+                clamp(
+                    30px,
+                    4vw,
+                    48px
+                );
+
+            line-height: 1.1;
+
+            letter-spacing:
+                -0.025em;
+        }
+
+        .intro {
+            max-width: 860px;
+
+            margin:
+                14px 0 0;
+
+            color:
+                var(--muted);
+
+            font-size: 17px;
+        }
+
+
+        /* ==================================================
+           RESUM NUMÈRIC
+        ================================================== */
+
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+        }
+
+        .stat {
+            padding: 25px;
+
+            background:
+                var(--card);
+
+            border:
+                1px solid
+                var(--line);
+
+            border-radius: 15px;
+        }
+
+        .stat-value {
+            font-size: 34px;
+
+            font-weight: 760;
+
+            letter-spacing:
+                -0.03em;
+        }
+
+        .stat-label {
+            margin-top: 4px;
+
+            color:
+                var(--muted);
+
+            font-size: 14px;
+        }
+
+
+        /* ==================================================
+           MAPA 2D
+        ================================================== */
+
+        .map-card {
+            overflow: hidden;
+
+            background:
+                var(--card);
+
+            border:
+                1px solid
+                var(--line);
+
+            border-radius: 17px;
+
+            box-shadow:
+                0 8px 30px
+                rgba(
+                    15,
+                    25,
+                    35,
+                    0.05
+                );
+        }
+
+        .map-card img {
+            display: block;
+
+            width: 100%;
+            height: auto;
+        }
+
+        .caption {
+            padding:
+                15px 20px 18px;
+
+            border-top:
+                1px solid
+                var(--line);
+
+            color:
+                var(--muted);
+
+            font-size: 14px;
+        }
+
+
+        /* ==================================================
+           GLOBUS 3D
+        ================================================== */
+
+        .globe-wrapper {
+            overflow: hidden;
+
+            background:
+                var(--dark);
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 16px 45px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.16
+                );
+        }
+
+        .globe-wrapper iframe {
+            display: block;
+
+            width: 100%;
+
+            height: 780px;
+
+            border: 0;
+        }
+
+        .globe-note {
+            margin-top: 12px;
+
+            color:
+                var(--muted);
+
+            font-size: 14px;
+        }
+
+
+        /* ==================================================
+           METODOLOGIA
+        ================================================== */
+
+        .method-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+        }
+
+        .method-card {
+            padding: 25px;
+
+            background:
+                var(--card);
+
+            border:
+                1px solid
+                var(--line);
+
+            border-radius: 15px;
+        }
+
+        .step {
+            color:
+                var(--accent-blue);
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            letter-spacing:
+                0.1em;
+
+            text-transform: uppercase;
+        }
+
+        .method-card h3 {
+            margin:
+                8px 0 9px;
+
+            font-size: 21px;
+        }
+
+        .method-card p {
+            margin: 0;
+
+            color:
+                var(--muted);
+
+            font-size: 15px;
+        }
+
+
+        /* ==================================================
+           FONT DE DADES
+        ================================================== */
+
+        .source-box {
+            padding: 27px;
+
+            background:
+                var(--card);
+
+            border:
+                1px solid
+                var(--line);
+
+            border-radius: 15px;
+        }
+
+        .source-box p {
+            margin:
+                0 0 11px;
+
+            color:
+                var(--muted);
+        }
+
+        .source-box p:last-child {
+            margin-bottom: 0;
+        }
+
+
+        /* ==================================================
+           PEU
+        ================================================== */
+
+        footer {
+            margin-top: 15px;
+
+            padding:
+                35px 0 50px;
+
+            border-top:
+                1px solid
+                var(--line);
+
+            color:
+                var(--muted);
+
+            font-size: 14px;
+        }
+
+
+        /* ==================================================
+           MÒBIL
+        ================================================== */
+
+        @media (
+            max-width: 850px
+        ) {
+
+            .stats,
+            .method-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding-top: 50px;
+            }
+
+            .globe-wrapper iframe {
+                height: 620px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- ========================================================
+     CAPÇALERA
+======================================================== -->
+
+<header class="hero">
+
+    <div class="container">
+
+        <h1>
+            Global Sea Surface Temperature Anomaly
+        </h1>
+
+        <p>
+            Exploring global sea surface temperature anomalies
+            during September 2026 relative to the
+            1991–2020 September climatology using
+            NOAA OISST v2.1 data.
+        </p>
+
+        <div class="tags">
+
+            <span class="tag">
+                NOAA OISST v2.1
+            </span>
+
+            <span class="tag">
+                September 2026
+            </span>
+
+            <span class="tag">
+                1991–2020 climatology
+            </span>
+
+            <span class="tag">
+                0.25° resolution
+            </span>
+
+            <span class="tag">
+                Python
+            </span>
+
+            <span class="tag">
+                xarray
+            </span>
+
+            <span class="tag">
+                Cartopy
+            </span>
+
+            <span class="tag">
+                Three.js
+            </span>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<main class="container">
+
+
+<!-- ========================================================
+     OVERVIEW
+======================================================== -->
+
+<section>
+
+    <div class="section-header">
+
+        <div class="section-kicker">
+            Overview
+        </div>
+
+        <h2>
+            September 2026 at a glance
+        </h2>
+
+        <p class="intro">
+            The SST anomaly is calculated as the difference
+            between September 2026 sea surface temperature
+            and the corresponding 1991–2020 September
+            climatology at each grid cell.
+        </p>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <div class="stat-value">
+                +0.75 °C
+            </div>
+
+            <div class="stat-label">
+                Area-weighted global mean SST anomaly
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-value">
+                0.25°
+            </div>
+
+            <div class="stat-label">
+                Native spatial resolution
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-value">
+                720 × 1440
+            </div>
+
+            <div class="stat-label">
+                Global latitude–longitude grid
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ========================================================
+     MAPA 2D
+======================================================== -->
+
+<section>
+
+    <div class="section-header">
+
+        <div class="section-kicker">
+            2D visualization
+        </div>
+
+        <h2>
+            Global SST anomaly map
+        </h2>
+
+        <p class="intro">
+            A Robinson projection provides a compact global
+            view of the spatial anomaly pattern. The colour
+            scale is centred at 0 °C and visually spans
+            −4 to +6.5 °C.
+        </p>
+
+    </div>
+
+
+    <div class="map-card">
+
+        <img
+            src="images/sst_anomaly_global_sep2026_robinson.png"
+            alt="Global SST anomaly map for September 2026"
+        >
+
+        <div class="caption">
+            September 2026 SST anomaly relative to the
+            1991–2020 September climatology.
+            Data source: NOAA OISST v2.1.
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ========================================================
+     GLOBUS 3D
+======================================================== -->
+
+<section>
+
+    <div class="section-header">
+
+        <div class="section-kicker">
+            Interactive visualization
+        </div>
+
+        <h2>
+            Explore the anomaly field in 3D
+        </h2>
+
+        <p class="intro">
+            Rotate the globe, zoom in and move the cursor
+            across the ocean to inspect local SST anomalies.
+            The visualization uses the original
+            0.25° OISST grid.
+        </p>
+
+    </div>
+
+
+    <div class="globe-wrapper">
+
+        <iframe
+            src="globe/index.html"
+            title="Interactive global SST anomaly globe"
+        ></iframe>
+
+    </div>
+
+    <p class="globe-note">
+        Drag to rotate · Scroll to zoom · Hover over the ocean
+        to inspect the local anomaly.
+    </p>
+
+</section>
+
+
+
+<!-- ========================================================
+     METODOLOGIA
+======================================================== -->
+
+<section>
+
+    <div class="section-header">
+
+        <div class="section-kicker">
+            Methodology
+        </div>
+
+        <h2>
+            From NOAA data to anomaly field
+        </h2>
+
+    </div>
+
+
+    <div class="method-grid">
+
+
+        <div class="method-card">
+
+            <div class="step">
+                01 — SST
+            </div>
+
+            <h3>
+                September 2026
+            </h3>
+
+            <p>
+                Monthly sea surface temperature for
+                September 2026 was extracted from
+                NOAA OISST v2.1 on its native
+                0.25° × 0.25° grid.
+            </p>
+
+        </div>
+
+
+        <div class="method-card">
+
+            <div class="step">
+                02 — Baseline
+            </div>
+
+            <h3>
+                1991–2020 climatology
+            </h3>
+
+            <p>
+                The NOAA 1991–2020 September long-term
+                monthly mean was used as the reference
+                climatology for each grid cell.
+            </p>
+
+        </div>
+
+
+        <div class="method-card">
+
+            <div class="step">
+                03 — Difference
+            </div>
+
+            <h3>
+                SST anomaly
+            </h3>
+
+            <p>
+                The anomaly was calculated grid cell by
+                grid cell as September 2026 SST minus the
+                corresponding September climatological SST.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ========================================================
+     GEL MARÍ
+======================================================== -->
+
+<section>
+
+    <div class="section-header">
+
+        <div class="section-kicker">
+            Sea ice
+        </div>
+
+        <h2>
+            Polar regions
+        </h2>
+
+        <p class="intro">
+            Sea-ice concentration was used to identify
+            polar cells affected by ice. A grid cell was
+            considered sea-ice influenced when the
+            concentration reached at least 15% either in
+            September 2026 or in the corresponding
+            1991–2020 September climatology.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- ========================================================
+     FONTS I REPRODUCIBILITAT
+======================================================== -->
+
+<section>
+
+    <div class="section-header">
+
+        <div class="section-kicker">
+            Data & reproducibility
+        </div>
+
+        <h2>
+            Data source and workflow
+        </h2>
+
+    </div>
+
+
+    <div class="source-box">
+
+        <p>
+            <strong>Dataset:</strong>
+            NOAA Optimum Interpolation Sea Surface
+            Temperature (OISST) v2.1.
+        </p>
+
+        <p>
+            <strong>Target period:</strong>
+            September 2026.
+        </p>
+
+        <p>
+            <strong>Reference period:</strong>
+            September climatology, 1991–2020.
+        </p>
+
+        <p>
+            <strong>Spatial resolution:</strong>
+            0.25° × 0.25°.
+        </p>
+
+        <p>
+            <strong>Processing:</strong>
+            Python, NumPy and xarray.
+        </p>
+
+        <p>
+            <strong>Visualization:</strong>
+            Matplotlib, Cartopy and Three.js.
+        </p>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+
+<footer>
+
+    <div class="container">
+
+        Global Sea Surface Temperature Anomaly —
+        September 2026 · NOAA OISST v2.1
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

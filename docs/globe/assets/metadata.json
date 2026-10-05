@@ -1,0 +1,21 @@
+{
+    "title": "Global Sea Surface Temperature Anomaly — September 2026",
+    "source": "NOAA OISST v2.1",
+    "target_period": "September 2026",
+    "reference_period": "1991-2020 September climatology",
+    "resolution_degrees": 0.25,
+    "n_lat": 720,
+    "n_lon": 1440,
+    "texture_width": 1440,
+    "texture_height": 720,
+    "color_min_degC": -4.0,
+    "color_max_degC": 6.5,
+    "data_min_degC": -4.462399482727051,
+    "data_max_degC": 10.325211524963379,
+    "global_mean_anomaly_degC": 0.75055330991745,
+    "global_mean_open_ocean_degC": 0.818955659866333,
+    "longitude_min": 0.125,
+    "longitude_max": 359.875,
+    "latitude_min": -89.875,
+    "latitude_max": 89.875
+}
